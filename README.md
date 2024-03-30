@@ -17,8 +17,10 @@ This is a program that can help you learn words in **any language**. It collects
 ## By Poetry
 
 I wouldn't recommend it, I just wanted to try Poetry.
-1. Install poetry 
-```shell pip install poetry```
+1. Install poetry:
+    ```shell
+    pip install poetry
+    ```
 2. Restart console
 3. ```shell poetry install```
 4. ```shell poetry run python "words_learning\main.py"```

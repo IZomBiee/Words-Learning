@@ -9,7 +9,13 @@ def language_choice() -> Vocabulary:
     while True:
         logging.info('Language choice start')
         Text.clear()
-        languages = os.listdir(LANGUAGES_PATH)
+        try:
+            languages = os.listdir(LANGUAGES_PATH)
+        except FileNotFoundError:
+            logging.warning("No language folder! Create new...")
+            os.mkdir(LANGUAGES_PATH)
+            logging.info("Folder succesful create!")
+            languages = os.listdir(LANGUAGES_PATH)
         option = Text.menu(['Add New Language']+languages)
         match option:
             case -1:

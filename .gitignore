@@ -1,3 +1,3 @@
-languages/*
+languages/
 *.log
 __pycache__/

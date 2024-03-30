@@ -17,7 +17,7 @@ This is a program that can help you learn words in **any language**. It collects
 ## By Poetry
 
 I wouldn't recommend it, I just wanted to try Poetry.
-1. Install poetry:
+1. Install poetry
     ```shell
     pip install poetry
     ```

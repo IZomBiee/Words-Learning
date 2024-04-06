@@ -3,43 +3,49 @@ import os
 
 from config import *
 from text import Text
-from windows import add, delete, language_choice, learn, list, add_txt
+from windows import Windows
 
 def main():
     Text.clear()
-    logging.basicConfig(filename="last.log", level=DEBUG_LEVEL, filemode='w',
-                        format=FORMAT)
+    logging.basicConfig(filename="last.log", level='DEBUG', filemode='w',
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(module)s - %(funcName)s: %(message)s')
     logging.info("Start program")
+    
     try:
-        vocabulary = language_choice.language_choice()
+        try:
+            vocabulary = Windows.language_choice()
+        except KeyboardInterrupt:
+            exit()
         vocabulary.load()
-    except KeyboardInterrupt:
-        return
-
-    try:         
+        windows = Windows(vocabulary)
         while True:
             Text.clear()
             option = Text.menu((
-                'Learn Words',
-                'List Words',
-                'Add Words',
-                'Add TXT',
-                'Delete Words'
+                'Learn',
+                'Add',
+                'Add txt',
+                'Delete',
+                'Change',
+                'List',
+                'Statistic'
             ))
             match option:
                 case -1:
                     raise KeyboardInterrupt
                 case 1:
-                    learn.learn(vocabulary)
+                    windows.learn()
                 case 2:
-                    list.list(vocabulary)
+                    windows.add()
                 case 3:
-                    add.add(vocabulary)
+                    windows.add_txt()
                 case 4:
-                    add_txt.add_txt(vocabulary)
+                    windows.delete()
                 case 5:
-                    delete.delete(vocabulary)
-                    
+                    windows.change()
+                case 6:
+                    windows.list()
+                case 7:
+                    windows.statistic()
     except KeyboardInterrupt:
         logging.info("Stop program")
         Text.clear()

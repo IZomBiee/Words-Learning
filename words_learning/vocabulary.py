@@ -109,6 +109,10 @@ class Vocabulary():
             text += f'\n'
         return text
     
+    def change(self, index:int, word:str, tran:str):
+        self[index]['word'] = word
+        self[index]['tran'] = tran
+
     @staticmethod
     def draw_date(words:list[str], trans:list[str]) -> str:
         logging.info("Draw words")
@@ -133,3 +137,4 @@ class Vocabulary():
             processed_words.append(word.replace('\n', '').strip().title())
             processed_trans.append(tran.replace('\n', '').strip().title())
         return (processed_words, processed_trans)
+ 

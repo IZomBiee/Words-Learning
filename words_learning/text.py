@@ -6,7 +6,6 @@ from time import sleep
 from termcolor import colored
 
 class Text:
-    @staticmethod
     def print(text:str='', color:str='white', delay:int=1, end:str='\n'):    
         for char in text:
             print(colored(char, color), end='', flush=True)
@@ -15,14 +14,35 @@ class Text:
         print(end=end)
         sleep(delay)
 
-    @staticmethod
-    def input(text:str='', color:str='white', end:str='\n'):  
+    def input(text:str='', color:str='green', end:str='\n'):  
         for char in text:
             print(colored(char, color), end='', flush=True)
             sleep(0.1 / len(text))  
         return input('')
     
-    @staticmethod
+    def input_int(text:str='', color:str='green', range:list[int]=(0, -1)):
+        if range[1] == -1:
+            range[1] = float('inf')
+        while True:
+            Text.print("Nothing to exit", color='yellow', delay=0)
+            index = Text.input(text, color)
+            if index == '':
+                raise KeyboardInterrupt
+            try:
+                index = int(index)
+            except ValueError:
+                logging.info(f'{index} is not number')
+                Text.input('Write Number!', color='red')
+                Text.clear(3)
+                continue
+            if index > range[-1] or index < range[0]:
+                logging.info(f'Number {index} out of range!')
+                Text.input(f'Write number from {range[0]} to {range[1]}!', color='red')
+                Text.clear(3)
+                continue
+            else:
+                return index
+                
     def clear(count:int=0):
         if count == 0:
             os.system('cls')
@@ -30,8 +50,7 @@ class Text:
             for _ in range(count):
                 sys.stdout.write("\033[F")
                 sys.stdout.write("\033[K")
-    
-    @staticmethod
+
     def menu(options:tuple[str], phrase:str='Option -> ') -> int:
         '''Return option number'''
         logging.info(f"Making menu {options}")
@@ -39,7 +58,7 @@ class Text:
             for index, option in enumerate(options):
                 Text.print(f'{index+1} -> {option}', delay=0)
             try:
-                Text.print("Nothing To Exit", color='green', delay=0)
+                Text.print("Nothing To Exit", color='yellow', delay=0)
                 user_option = Text.input(phrase, color='green')
                 if user_option == '':
                     Text.clear(len(options)+2)
@@ -64,8 +83,8 @@ class Text:
             for index, option in enumerate(options):
                 Text.print(f'{index+1} -> {option}', delay=0)
            
-            Text.print("Nothing To Exit", color='green', delay=0)
-            Text.print("Separate by ,", color='green', delay=0)
+            Text.print("Nothing To Exit", color='yellow', delay=0)
+            Text.print("Separate by ,", color='yellow', delay=0)
             user_option = Text.input(phrase, color='green')
             if user_option == '':
                 Text.clear(len(options)+3)

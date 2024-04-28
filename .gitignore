@@ -1,4 +1,5 @@
-languages/
+files/
 *.log
+*.csv
+
 __pycache__/
-files

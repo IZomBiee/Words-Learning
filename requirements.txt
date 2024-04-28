@@ -1,2 +1,0 @@
-termcolor = "^2.4.0"
-matplotlib = "^3.8.4"

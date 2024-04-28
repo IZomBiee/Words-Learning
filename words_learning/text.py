@@ -2,29 +2,22 @@ import sys
 import logging
 import os
 
-from time import sleep
 from termcolor import colored
 
 class Text:
-    def print(text:str='', color:str='white', delay:int=1, end:str='\n'):    
-        for char in text:
-            print(colored(char, color), end='', flush=True)
-            if char != ' ':
-                sleep(0.1 / len(text))   
-        print(end=end)
-        sleep(delay)
+    def print(text:str='', color:str='white', end:str='\n'):    
+        print(colored(text, color), end=end, flush=True)
 
-    def input(text:str='', color:str='green', end:str='\n'):  
-        for char in text:
-            print(colored(char, color), end='', flush=True)
-            sleep(0.1 / len(text))  
-        return input('')
+    def input(text:str='', color:str='green'): 
+        Text.print(text, color=color, end='')
+        entry = input('')
+        return entry
     
-    def input_int(text:str='', color:str='green', range:list[int]=(0, -1)):
-        if range[1] == -1:
-            range[1] = float('inf')
+    def input_int(text:str='', color:str='green', limits:list[int]=(0, -1)):
+        if limits[1] == -1:
+            limits[1] = float('inf')
         while True:
-            Text.print("Nothing to exit", color='yellow', delay=0)
+            Text.print('Nothing to exit', color='yellow')
             index = Text.input(text, color)
             if index == '':
                 raise KeyboardInterrupt
@@ -35,9 +28,9 @@ class Text:
                 Text.input('Write Number!', color='red')
                 Text.clear(3)
                 continue
-            if index > range[-1] or index < range[0]:
-                logging.info(f'Number {index} out of range!')
-                Text.input(f'Write number from {range[0]} to {range[1]}!', color='red')
+            if index > limits[-1] or index < limits[0]:
+                logging.info(f'Number {index} out of limits!')
+                Text.input(f'Write number from {limits[0]} to {limits[1]}!', color='red')
                 Text.clear(3)
                 continue
             else:
@@ -52,63 +45,14 @@ class Text:
                 sys.stdout.write("\033[K")
 
     def menu(options:tuple[str], phrase:str='Option -> ') -> int:
-        '''Return option number'''
-        logging.info(f"Making menu {options}")
         while True:
             for index, option in enumerate(options):
-                Text.print(f'{index+1} -> {option}', delay=0)
+                Text.print(f'{index+1:^{len(str(len(options)))+1}}-> {option}')
+            Text.print('')
             try:
-                Text.print("Nothing To Exit", color='yellow', delay=0)
-                user_option = Text.input(phrase, color='green')
-                if user_option == '':
-                    Text.clear(len(options)+2)
-                    return -1
-                user_option = int(user_option)
-                if user_option < 1 or user_option > len(options):
-                    logging.warning(f'{user_option=} out of range')
-                    Text.input('Not correct variant ', color='red')
-                    continue
-                logging.info(f"Return {user_option}")
+                user_option = Text.input_int(phrase, color='green', limits=(1, len(options)))
                 return user_option
             except ValueError:
                 Text.input('Write number!', color='red')
-                logging.warning(f'{user_option=} is not int')
             finally:
                 Text.clear(len(options)+3)
-    
-    def multimenu(options:tuple[str], phrase:str='Option -> ') -> int:
-        '''Return option number'''
-        logging.info(f"Making multimenu {options=}")
-        while True:
-            for index, option in enumerate(options):
-                Text.print(f'{index+1} -> {option}', delay=0)
-           
-            Text.print("Nothing To Exit", color='yellow', delay=0)
-            Text.print("Separate by ,", color='yellow', delay=0)
-            user_option = Text.input(phrase, color='green')
-            if user_option == '':
-                Text.clear(len(options)+3)
-                return -1
-            
-            user_options = user_option.replace(' ', '').split(',')
-            try:
-                user_options = [int(i) for i in user_options]
-            except ValueError:
-                logging.warning(f'{user_option=} is not int')
-                Text.input('Write number!', color='red')
-                Text.clear(len(options)+4)
-                continue
-
-            for user_option in user_options:
-                if user_option < 1 or user_option > len(options):
-                    logging.warning(f'{user_option=} out of range')
-                    Text.input('Not correct variant ', color='red')
-                    Text.clear(len(options)+4)
-                    continue
-            
-            logging.info(f"Return {user_options}")
-            return user_options
-
-
-if __name__ == '__main__':
-    print(Text.multimenu(['a', 'b', 'c']))

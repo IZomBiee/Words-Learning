@@ -1,5 +1,4 @@
 files/
 *.log
 *.csv
-
 __pycache__/

@@ -23,7 +23,7 @@ cd Words-Learning
 poetry install
 ```
 
-7. Run main.py 
+7. Run main.py with poetry
 ```shell
 poetry run python "words_learning\main.py"
 ```

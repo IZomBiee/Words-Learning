@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Words Learning"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["I ZomBie <patrik009009@gmail.com>"]
 readme = "README.md"
@@ -11,6 +11,7 @@ package-mode = false
 python = "^3.12"
 termcolor = "^2.4.0"
 matplotlib = "^3.8.4"
+python-dotenv = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]

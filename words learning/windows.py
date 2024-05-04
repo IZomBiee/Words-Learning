@@ -6,8 +6,8 @@ import os
 from vocabulary import Vocabulary
 from statistic import Statistic
 from text import Text
-
 from learn import learn
+
 class Windows:
     def __init__(self, vocabulary:Vocabulary, statistic:Statistic):
         self.vocabulary = vocabulary
@@ -56,6 +56,10 @@ class Windows:
 
     def delete(self, index:int=None):
         logging.info(f'Delete word')
+        if len(self.vocabulary) < 1:
+            Text.input('No words in vocabulary!', color='red')
+            raise KeyboardInterrupt
+
         Text.clear()
         if index == None:
             index = self.choice_word()
@@ -120,6 +124,9 @@ class Windows:
     
     def change(self, index:int=None):
         logging.info(f'Word change')
+        if len(self.vocabulary) < 1:
+            Text.input('No words in vocabulary!', color='red')
+            raise KeyboardInterrupt
         Text.clear()
         if index == None:
             index = self.choice_word()

@@ -22,10 +22,10 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
             index = len(vocabulary) - index - 1
             learning_time = time.time()
             try:
-                success_procentage = (int(data['success'])/(int(data['success'])+int(data['fail'])))*100
+                success_procentage = (int(data['success'])/(int(data['success'])+int(data['fail'])+1))*100
             except ZeroDivisionError:
                 success_procentage = 0
-            if success_procentage*float(os.getenv('learn_change_mult')) < random.randint(0, 100) or 1 == random.randint(0, 1000):
+            if success_procentage*float(os.getenv('learn_change_mult')) < random.randint(0, 100) or 1 == random.randint(0, int(os.getenv("random_word_change"))):
                 logging.debug(f'Word is {data['word']} - {data['translation']}')
                 Text.clear()
                 Text.print(f'Fail:{data['fail']} Success:{data['success']} Correct:{round(success_procentage)}% Time:{round(time.time()-global_learning_time)}s\
@@ -64,14 +64,15 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
                             correct = Vocabulary.check_word(data['translation'], word)
                         else:
                             correct = Vocabulary.check_word(data['word'], word)
-                            correct['correct'] += int(os.getenv('translation_mode_threshold'))
-                        logging.debug(f'Word correct_procentage is {correct['correct']}')
+                        logging.debug(f'Word correct procentage is {correct['correct']}')
                         print()
                         if correct['correct'] >= 100:
                             statistic.add('success', 1)
                             vocabulary.add_statistic(index, 'success', 1)
-                            Text.print('Correct! ', color='green')
+                            Text.print('Correct! ', color='green', end='')
                         elif correct['correct'] > int(os.getenv('almost_correct_threshold')):
+                            statistic.add('success', 1)
+                            vocabulary.add_statistic(index, 'success', 1)
                             Text.print('Almost correct!', color='yellow')
                             Text.print('Correct is ', color='green', end='')
                             for char in correct['word']:
@@ -83,10 +84,24 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
                             Text.print('Correct is ', color='green', end='')
                             for char in correct['word']:
                                 Text.print(char['char'], color=char['color'], end='')
-                            Text.input('', color='green')
-                            break
-                        Text.input('', color='green')
+                            
+                        option = Text.input('\nOption -> ', color='green')
+                        match option:
+                            case '1':
+                                logging.debug('Exit')
+                                raise KeyboardInterrupt
+                            case '2':
+                                logging.debug('Delete')
+                                try:
+                                    windows.delete(index)
+                                    break
+                                except KeyboardInterrupt:break
+                            case '3':
+                                logging.debug('Change')
+                                try:
+                                    windows.change(index)
+                                    break
+                                except KeyboardInterrupt:break
+                        if correct['correct'] <= int(os.getenv('almost_correct_threshold')):break
                             
                 statistic.add('time_in_learning', int(time.time()-learning_time))
-            
-               

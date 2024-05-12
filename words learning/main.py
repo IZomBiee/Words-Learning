@@ -1,9 +1,13 @@
 import logging
+import os
 
 from vocabulary import Vocabulary
 from statistic import Statistic
 from windows import Windows
 from text import Text
+
+from dotenv import load_dotenv
+load_dotenv()
 
 if __name__ == '__main__':
     logging.basicConfig(filename="last.log", level='DEBUG', filemode='w', encoding='utf-8',

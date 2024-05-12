@@ -13,11 +13,11 @@ class Text:
         entry = input('')
         return entry
     
-    def input_int(text:str='', color:str='green', limits:list[int]=(0, -1)):
+    def input_int(text:str='', color:str='green', limits:list[int]=(0, -1), exit_phrase:str='Nothing to exit'):
         if limits[1] == -1:
             limits[1] = float('inf')
         while True:
-            Text.print('Nothing to exit', color='yellow')
+            Text.print(exit_phrase, color='yellow')
             index = Text.input(text, color)
             if index == '':
                 raise KeyboardInterrupt
@@ -44,13 +44,13 @@ class Text:
                 sys.stdout.write("\033[F")
                 sys.stdout.write("\033[K")
 
-    def menu(options:tuple[str], phrase:str='Option -> ') -> int:
+    def menu(options:tuple[str], phrase:str='Option -> ', exit_phrase:str='Nothing to exit') -> int:
         while True:
             for index, option in enumerate(options):
                 Text.print(f'{index+1:^{len(str(len(options)))+1}}-> {option}')
             Text.print('')
             try:
-                user_option = Text.input_int(phrase, color='green', limits=(1, len(options)))
+                user_option = Text.input_int(phrase, color='green', limits=(1, len(options)), exit_phrase=exit_phrase)
                 return user_option
             except ValueError:
                 Text.input('Write number!', color='red')

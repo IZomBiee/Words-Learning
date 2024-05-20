@@ -23,7 +23,8 @@ class Windows:
                 'Delete words',
                 'Change words',
                 'Show statistics',
-                'Learn'
+                'Learn',
+                # 'Reset'
             ])
             match option:
                 case 1:
@@ -52,6 +53,10 @@ class Windows:
                 case 6:
                     try:
                         self.learn()
+                    except KeyboardInterrupt:pass
+                case 7:
+                    try:
+                        self.reset()
                     except KeyboardInterrupt:pass
 
     def delete(self, index:int=None):
@@ -120,8 +125,7 @@ class Windows:
         translation = Vocabulary.proccess_word(Text.input('Write translation -> '))
         if translation == '':raise KeyboardInterrupt
         self.vocabulary.add(word, translation)
-
-    
+ 
     def change(self, index:int=None):
         logging.info(f'Word change')
         if len(self.vocabulary) < 1:
@@ -150,6 +154,20 @@ class Windows:
 
     def learn(self):
         learn(self.vocabulary, self.statistic, self)
+
+    def reset(self):
+        Text.print('Are you sure to reset ALL words? Write Bye to delete', color='red')
+        if Text.input('Word -> ') == 'Bye':
+            for data in self.vocabulary:
+                data['word'] = data['word']
+                data['translation'] = data['translation']
+                data['date'] = data['date']
+                data['fail'] = 0
+                data['success'] = 0
+                data['rating'] = 0
+            self.vocabulary.write()
+        else: raise KeyboardInterrupt
+        logging.error(self.vocabulary[0])
 
     def choice_word(self) -> int:
         return Text.menu([f"{i['word']:^{20}} - {i['translation']:^{20}}" for i in self.vocabulary[::1]])-1

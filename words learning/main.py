@@ -1,5 +1,4 @@
 import logging
-import os
 
 from vocabulary import Vocabulary
 from statistic import Statistic
@@ -15,7 +14,7 @@ if __name__ == '__main__':
     logging.info("Start program")
 
     statistic = Statistic('files/statistic.csv', ['date', 'fail', 'success', 'load_times', 'time_in_learning', 'words_learned', 'words_added', 'words_deleted'])
-    vocabulary = Vocabulary(statistic, 'files/words.csv', ['word', 'translation', 'date', 'fail', 'success'])
+    vocabulary = Vocabulary(statistic, 'files/words.csv', ['word', 'translation', 'date', 'fail', 'success', 'rating'])
     windows = Windows(vocabulary, statistic)
     
     try:

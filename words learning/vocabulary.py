@@ -6,6 +6,15 @@ from csv_reader import CSVReader
 from statistic import Statistic
 from text import Text
 
+class VocabularyError():
+    class SameWordError(Exception):
+        def __init__(self) -> None:
+            ...
+
+    class SameTranslationError(Exception):
+        def __init__(self) -> None:
+            ...
+        
 class Vocabulary(CSVReader):
     def __init__(self, statistic:Statistic, path:str, keys:list) -> None:
         super().__init__(path, keys)
@@ -17,20 +26,14 @@ class Vocabulary(CSVReader):
         
         for index, data in enumerate(self.data):
             if data['word'] == word:
-                Text.input(f'The word {word} is already in the vocabulary! This word will be reseted!', color='red')
-                self.data[index]['success'] = 0
-                self.data[index]['fail'] = 0
-                return
+                assert VocabularyError.SameWordError
             elif data['translation'] == translation:
-                Text.print(f'''\nThe word {word} with translation {translation} is already in the vocabulary!
-Please, change translation! The word will not be added!\n''', color='red')
-                Text.print(f'{word} - {translation}\n{self.data[index]['word']} - {self.data[index]['translation']}\n', color='white')
-                Text.input(f'Continue? ', color='green')
-                return
+                assert VocabularyError.SameTranslationError
             
         self.data.append({
             'word':word, 'translation':translation,
-            'date':str(datetime.now().date()), 'fail':0, 'success':0
+            'date':str(datetime.now().date()), 'fail':0, 'success':0,
+            'rating':0
             })
         self.statistic.add('words_added', 1)
         self.write()
@@ -47,21 +50,11 @@ Please, change translation! The word will not be added!\n''', color='red')
         self.data[index]['word'] = word
         self.data[index]['translation'] = tranlation
         self.write()
-    
-    def add_statistic(self, index:int, key:str, count:int):
-        self[index][key] = int(self[index][key]) + count
-        self.write()
-        self.statistic.replace('words_learned', self.words_learned())
 
-    def words_learned(self):
-        elem = 0
-        for data in self:
-            try:
-                if (int(data['success'])/(int(data['success'])+int(data['fail'])))*100 > 70:
-                    elem += 1
-            except ZeroDivisionError:pass
-        return elem
-      
+    def add_statistic(self, index:int, key:str, count:int):
+        self[index][key] = str(int(self[index][key]) + count)
+        self.write()
+
     @staticmethod
     def proccess_word(word:str) -> str:
         return word.strip().capitalize()

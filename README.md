@@ -25,5 +25,5 @@ poetry install
 
 7. Run main.py with poetry
 ```shell
-poetry run python "words learning\main.py"
+poetry run python "words_learning\main.py"
 ```

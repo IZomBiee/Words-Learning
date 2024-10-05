@@ -6,15 +6,6 @@ from csv_reader import CSVReader
 from statistic import Statistic
 from text import Text
 
-class VocabularyError():
-    class SameWordError(Exception):
-        def __init__(self) -> None:
-            ...
-
-    class SameTranslationError(Exception):
-        def __init__(self) -> None:
-            ...
-        
 class Vocabulary(CSVReader):
     def __init__(self, statistic:Statistic, path:str, keys:list) -> None:
         super().__init__(path, keys)
@@ -25,15 +16,17 @@ class Vocabulary(CSVReader):
         logging.info(f'Add word {word} - {translation}')
         
         for index, data in enumerate(self.data):
-            if data['word'] == word:
-                assert VocabularyError.SameWordError
-            elif data['translation'] == translation:
-                assert VocabularyError.SameTranslationError
+            if data['word'] == word and data['translation'] == translation:
+                Text.print(f'Word {word:^{20}} - {translation:^{20}} is already in vocabulary, it will be reseted!', color='red')
+                self.data[index]['rating'] = '0'
+                return
+        
+        Text.print(f'Word {word:^{20}} - {translation:^{20}} added.', color='green')
             
         self.data.append({
             'word':word, 'translation':translation,
-            'date':str(datetime.now().date()), 'fail':0, 'success':0,
-            'rating':0
+            'date':str(datetime.now().date()), 'fail':'0', 'success':'0',
+            'rating':'0'
             })
         self.statistic.add('words_added', 1)
         self.write()

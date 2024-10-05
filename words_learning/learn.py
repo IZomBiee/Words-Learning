@@ -10,7 +10,7 @@ from text import Text
 from dotenv import load_dotenv
 load_dotenv()
 
-rating_change = {
+rating_chance = {
     '0': 100., '1':90., '2':70., '3':40., '4':10., '5':1.
 }
 
@@ -20,32 +20,44 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
         return Text.input('No words in vocabulary!', color='red')
     
     while True:
-        word_learning_mode = 1 if int(os.getenv('word_mode_change')) > random.randint(0, 100) else 0
-        contest_mode = 1 if int(os.getenv('contest_mode_change')) > random.uniform(0, 100) else 0
+        word_learning_mode = 1 if int(os.getenv('word_mode_chance')) > random.randint(0, 100) else 0
+        contest_mode = 1 if int(os.getenv('contest_mode_chance')) > random.uniform(0, 100) else 0
         correct_words = 0
         uncorrect_words = 0
+
+        cycle_learning_time = time.time()
         for index, data in enumerate(vocabulary[::-1]):
             index = len(vocabulary) - index - 1
 
             if int(data['rating']) < 0: data['rating'] = '0'
             elif int(data['rating']) > 5: data['rating'] = '5'
-            word_chance = rating_change[data['rating']]
+            word_chance = rating_chance[data['rating']]
 
             if word_chance < random.uniform(0, 100) and not contest_mode:
                 continue
+            synonyms = []
+            for word in vocabulary[::-1]:
+                if word is data:pass 
+                elif word_learning_mode:
+                    if word['translation'] == data['translation']:
+                        synonyms.append(word['word'])
+                else: 
+                    if word['word'] == data['word']:
+                        synonyms.append(word['translation'])
 
-            cycle_learning_time = time.time()
             try:
                 correct_ansawer_percents = (int(data['success'])/(int(data['success'])+int(data['fail'])))*100
             except ZeroDivisionError: correct_ansawer_percents = 100
 
             Text.clear()
-            logging.info(f'Learn ')
+            logging.info(f'Learn')
             if contest_mode:Text.print('Contest!', color='yellow')
             Text.print(f"Fail:{data['fail']} Success:{data['success']} Rating:{data['rating']}/5 \
 Correct:{round(correct_ansawer_percents)}% Time:{round(time.time()-global_learning_time)}s Position:{index+1}\n", color='green')
                 
             Text.print('Nothing to exit', color='yellow')
+            if len(synonyms):
+                Text.print(f"Don't write {', '.join(synonyms)}!", color='red')
             if word_learning_mode:
                 Text.print(f"Translation       -> ", end='', color='green')
                 Text.print(data['translation'])
@@ -73,12 +85,11 @@ Correct:{round(correct_ansawer_percents)}% Time:{round(time.time()-global_learni
                 for char in checked_word['word']:
                     Text.print(char['char'], color=char['color'], end='')
             else:
-                statistic.add('success', 1)
-                vocabulary.add_statistic(index, 'success', 1)
-                vocabulary.add_statistic(index, 'rating', 1)
-                correct_words += 1
-
                 if checked_word['correct'] == 100:
+                    statistic.add('success', 1)
+                    vocabulary.add_statistic(index, 'success', 1)
+                    vocabulary.add_statistic(index, 'rating', 1)
+                    correct_words += 1
                     Text.print('Correct! ', color='green', end='')
                 else:
                     Text.print('Almost correct!', color='yellow')

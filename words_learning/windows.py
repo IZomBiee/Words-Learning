@@ -62,6 +62,7 @@ class Windows:
     def delete(self, index:int=None):
         logging.info(f'Delete word')
         if len(self.vocabulary) < 1:
+            Text.clear()
             Text.input('No words in vocabulary!', color='red')
             raise KeyboardInterrupt
 
@@ -69,7 +70,7 @@ class Windows:
         if index == None:
             index = self.choice_word()
 
-        Text.print(f'{self.vocabulary[index]['word']} | {self.vocabulary[index]['translation']}\n')
+        Text.print(f'{self.vocabulary[index]['word']} - {self.vocabulary[index]['translation']}\n')
         option = Text.menu((
             'Yes',
             'No'
@@ -86,7 +87,7 @@ class Windows:
             'Word - Translation [New line] Word - Translation'
         ], 'Pick a pattern -> ')
         Text.print('File need to be in desktop', color='yellow')
-        file_name = Text.input('File name (words.txt)-> ').strip()
+        file_name = Text.input('File name (like words.txt)-> ').strip()
         try:
             with open(f'{os.path.join(os.path.expanduser('~'), 'Desktop')}\{file_name}', encoding='utf-8') as file:
                 match pattern:
@@ -97,7 +98,7 @@ class Windows:
                                 words.append(Vocabulary.proccess_word(line[0]))
                                 trans.append(Vocabulary.proccess_word(line[1]))
                             else:
-                                return Text.input('Word dont have translation!', color='red')
+                                return Text.input(f'Word {line[0]} dont have translation!', color='red')
 
         except FileNotFoundError:
             logging.error(f'File {file_name} not found!')
@@ -113,8 +114,11 @@ class Windows:
             'Yes', 'No'
         ), phrase='Add? -> ')
         if option == 1:
+            Text.clear()
             for word, tran in zip(words, trans):
                 self.vocabulary.add(word, tran)
+        
+        input('Continue? ')
 
     def add(self):
         logging.info(f'Add word')

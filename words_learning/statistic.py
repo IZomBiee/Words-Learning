@@ -11,13 +11,13 @@ class Statistic(CSVReader):
         if len(self.data) == 0 or self.data[-1].get('date') != str(datetime.now().date()):
             self.data.append({
                 'date':str(datetime.now().date()),
-                'fail':0,
-                'success':0,
-                'load_times':0,
-                'time_in_learning':0,
-                'words_learned':0,
-                'words_added':0,
-                'words_deleted':0,
+                'fail':'0',
+                'success':'0',
+                'load_times':'0',
+                'time_in_learning':'0',
+                'words_learned':'0',
+                'words_added':'0',
+                'words_deleted':'0',
                               })
         self.add('load_times', 1)
     

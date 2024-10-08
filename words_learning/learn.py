@@ -27,6 +27,7 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
 
         cycle_learning_time = time.time()
         for index, data in enumerate(vocabulary[::-1]):
+            word_learning_time = time.time()
             index = len(vocabulary) - index - 1
 
             if int(data['rating']) < 0: data['rating'] = '0'
@@ -120,7 +121,7 @@ Correct:{round(correct_ansawer_percents)}% Time:{round(time.time()-global_learni
                             break
                         except KeyboardInterrupt:break
 
-            statistic.add('time_in_learning', int(time.time()-cycle_learning_time))
+            statistic.add('time_in_learning', int(time.time()-word_learning_time))
             if (((checked_word['correct'] <= int(os.getenv('word_almost_correct_threshold'))) and word_learning_mode) or (
                 (checked_word['correct'] <= int(os.getenv('translation_almost_correct_threshold'))) and not word_learning_mode
                 )) and not contest_mode:break

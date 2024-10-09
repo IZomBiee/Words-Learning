@@ -9,12 +9,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 if __name__ == '__main__':
-    logging.basicConfig(filename="last.log", level='DEBUG', filemode='w', encoding='utf-8',
+    logging.basicConfig(filename="last.log", level='INFO', filemode='w', encoding='utf-8',
                         format='%(asctime)s - %(name)s - %(levelname)s - %(module)s - %(funcName)s: %(message)s')
     logging.info("Start program")
 
     statistic = Statistic('files/statistic.csv', ['date', 'fail', 'success', 'load_times', 'time_in_learning', 'words_learned', 'words_added', 'words_deleted'])
-    vocabulary = Vocabulary(statistic, 'files/words.csv', ['word', 'translation', 'date', 'fail', 'success', 'rating'])
+    vocabulary = Vocabulary(statistic, 'files/words.csv', ['word', 'translation', 'description','date', 'fail', 'success', 'rating'])
     windows = Windows(vocabulary, statistic)
     
     try:

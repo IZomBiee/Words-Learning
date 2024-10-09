@@ -45,7 +45,7 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
                 else: 
                     if word['word'] == data['word']:
                         synonyms.append(word['translation'])
-
+            logging.critical(synonyms)
             try:
                 correct_ansawer_percents = (int(data['success'])/(int(data['success'])+int(data['fail'])))*100
             except ZeroDivisionError: correct_ansawer_percents = 100
@@ -61,11 +61,11 @@ Correct:{round(correct_ansawer_percents)}% Time:{round(time.time()-global_learni
                 Text.print(f"Don't write {', '.join(synonyms)}!", color='red')
             if word_learning_mode:
                 Text.print(f"Translation       -> ", end='', color='green')
-                Text.print(data['translation'])
+                Text.print(f"{data['translation']} ({data['description']})")
                 user_word = Vocabulary.proccess_word(Text.input('Write Translation -> ', color='green'))
             else:
                 Text.print(f"Word              -> ", end='', color='green')
-                Text.print(data['word'])
+                Text.print(f"{data['word']} ({data['description']})")
                 user_word = Vocabulary.proccess_word(Text.input('Write Translation -> ', color='green'))
             if user_word == '':raise KeyboardInterrupt
 

@@ -12,7 +12,7 @@ class Vocabulary(CSVReader):
         self.statistic = statistic
         self.read()
 
-    def add(self, word:str, translation:str) -> None:
+    def add(self, word:str, translation:str, description:str='') -> None:
         logging.info(f'Add word {word} - {translation}')
         
         for index, data in enumerate(self.data):
@@ -24,7 +24,7 @@ class Vocabulary(CSVReader):
         Text.print(f'Word {word:^{20}} - {translation:^{20}} added.', color='green')
             
         self.data.append({
-            'word':word, 'translation':translation,
+            'word':word, 'translation':translation, 'description':description,
             'date':str(datetime.now().date()), 'fail':'0', 'success':'0',
             'rating':'0'
             })
@@ -37,11 +37,12 @@ class Vocabulary(CSVReader):
         self.statistic.add('words_deleted', 1)
         self.write()
     
-    def change(self, word:str, tranlation:str, index:int) -> None:
+    def change(self, word:str, translation:str, index:int, description:str='') -> None:
         logging.info(f'Change word {self.data[index]['word']} - {self.data[index]['translation']}\
-                     to {word} - {tranlation}')
+                     to {word} - {translation}')
         self.data[index]['word'] = word
-        self.data[index]['translation'] = tranlation
+        self.data[index]['translation'] = translation
+        self.data[index]['description'] = description
         self.write()
 
     def add_statistic(self, index:int, key:str, count:int):

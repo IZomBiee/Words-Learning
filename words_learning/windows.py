@@ -123,12 +123,15 @@ class Windows:
     def add(self):
         logging.info(f'Add word')
         Text.clear()
-        Text.print('Nothing to add words', color='yellow')
+        Text.print('Nothing to exit', color='yellow')
         word = Vocabulary.proccess_word(Text.input('Write word        -> '))
         if word == '':raise KeyboardInterrupt
         translation = Vocabulary.proccess_word(Text.input('Write translation -> '))
         if translation == '':raise KeyboardInterrupt
-        self.vocabulary.add(word, translation)
+        Text.print("Nothing to don't add", color='yellow')
+        Text.print("Don't write word translation in description", color='yellow')
+        description = Vocabulary.proccess_word(Text.input("Write description -> "))
+        self.vocabulary.add(word, translation, description)
  
     def change(self, index:int=None):
         logging.info(f'Word change')
@@ -138,20 +141,25 @@ class Windows:
         Text.clear()
         if index == None:
             index = self.choice_word()
-        Text.print(f'{self.vocabulary[index]['word']} - {self.vocabulary[index]['translation']}\n')
+        Text.print(f'{self.vocabulary[index]['word']} - {self.vocabulary[index]['translation']} ({self.vocabulary[index]['description']})\n')
         Text.print(f'Nothing to exit', color='yellow')
         word = Vocabulary.proccess_word(Text.input('Write new word -> '))
         if word == '':raise KeyboardInterrupt
         translation = Vocabulary.proccess_word(Text.input('Write new translation -> '))
         if translation == '':raise KeyboardInterrupt
+        Text.print("Nothing to don't add", color='yellow')
+        Text.print("Don't write word translation in description", color='yellow')
+        description = Vocabulary.proccess_word(Text.input("Write new description -> "))
+        self.vocabulary.add(word, translation, description)
+ 
         Text.clear()
-        Text.print(f'{self.vocabulary[index]['word']} - {self.vocabulary[index]['translation']} -> {word} - {translation}\n')
+        Text.print(f'{self.vocabulary[index]['word']} - {self.vocabulary[index]['translation']} ({self.vocabulary[index]['description']}) -> {word} - {translation} ({description})\n')
         option = Text.menu((
                     'Yes',
                     'No'
         ), phrase = 'Correct -> ')
         if option == 1:
-            self.vocabulary.change(word, translation, index)
+            self.vocabulary.change(word, translation, index, description=description)
 
     def vizualize(self):
         self.statistic.vizualize()
@@ -174,4 +182,4 @@ class Windows:
         logging.error(self.vocabulary[0])
 
     def choice_word(self) -> int:
-        return Text.menu([f"{i['word']:^{20}} - {i['translation']:^{20}}" for i in self.vocabulary[::1]])-1
+        return Text.menu([f"{i['word']:^{20}} - {i['translation']:^{20}} ({i['description']})" for i in self.vocabulary[::1]])-1

@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 rating_chance = {
-    '0': 100., '1':90., '2':70., '3':40., '4':10., '5':1.
+    '0': 100., '1':70., '2':50., '3':30., '4':7., '5':0.3
 }
 
 def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
@@ -21,7 +21,8 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
     
     while True:
         word_learning_mode = 1 if int(os.getenv('word_mode_chance')) > random.randint(0, 100) else 0
-        contest_mode = 1 if int(os.getenv('contest_mode_chance')) > random.uniform(0, 100) else 0
+        contest_mode = 1 if int(os.getenv('contest_mode_chance')) > random.uniform(0, 100) \
+        and min(map(lambda x: int(x['rating']), vocabulary)) >= 3 else 0
         correct_words = 0
         uncorrect_words = 0
 
@@ -45,7 +46,6 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
                 else: 
                     if word['word'] == data['word']:
                         synonyms.append(word['translation'])
-            logging.critical(synonyms)
             try:
                 correct_ansawer_percents = (int(data['success'])/(int(data['success'])+int(data['fail'])))*100
             except ZeroDivisionError: correct_ansawer_percents = 100
@@ -53,6 +53,7 @@ def learn(vocabulary:Vocabulary, statistic:Statistic, windows):
             Text.clear()
             logging.info(f'Learn')
             if contest_mode:Text.print('Contest!', color='yellow')
+            if int(data['fail'])+int(data['success']) <= 0:Text.print('New word!', color='yellow')
             Text.print(f"Fail:{data['fail']} Success:{data['success']} Rating:{data['rating']}/5 \
 Correct:{round(correct_ansawer_percents)}% Time:{round(time.time()-global_learning_time)}s Position:{index+1}\n", color='green')
                 
@@ -61,11 +62,17 @@ Correct:{round(correct_ansawer_percents)}% Time:{round(time.time()-global_learni
                 Text.print(f"Don't write {', '.join(synonyms)}!", color='red')
             if word_learning_mode:
                 Text.print(f"Translation       -> ", end='', color='green')
-                Text.print(f"{data['translation']} ({data['description']})")
+                Text.print(f"{data['translation']} ", end='')
+                if data['description'] != "":
+                    Text.print(f"({data['description']})")
+                else:print()
                 user_word = Vocabulary.proccess_word(Text.input('Write Translation -> ', color='green'))
             else:
                 Text.print(f"Word              -> ", end='', color='green')
-                Text.print(f"{data['word']} ({data['description']})")
+                Text.print(f"{data['word']} ", end='')
+                if data['description'] != "":
+                    Text.print(f"({data['description']})")
+                else:print()
                 user_word = Vocabulary.proccess_word(Text.input('Write Translation -> ', color='green'))
             if user_word == '':raise KeyboardInterrupt
 

@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "Words Learning"
-version = "0.3.2"
+version = "0.3.5"
 description = "Program that can help you learn words."
 authors = ["I ZomBie <patrik009009@gmail.com>"]
 readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.9 <3.13"
 termcolor = "^2.4.0"
 matplotlib = "^3.8.4"
 python-dotenv = "^1.0.1"

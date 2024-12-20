@@ -18,6 +18,7 @@ class Vocabulary(CSVReader):
         for index, data in enumerate(self.data):
             if data['word'] == word and data['translation'] == translation:
                 Text.print(f'Word {word:^{20}} - {translation:^{20}} is already in vocabulary, it will be reseted!', color='red')
+                input()
                 self.data[index]['rating'] = '0'
                 return
         

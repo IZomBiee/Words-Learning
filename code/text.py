@@ -1,5 +1,4 @@
 import sys
-import logging
 import os
 
 from termcolor import colored
@@ -11,6 +10,8 @@ class Text:
     def input(text:str='', color:str='green'): 
         Text.print(text, color=color, end='')
         entry = input('')
+        if entry == '':
+            raise KeyboardInterrupt
         return entry
     
     def input_int(text:str='', color:str='green', limits:list[int]=(0, -1), exit_phrase:str='Nothing to exit'):
@@ -24,12 +25,10 @@ class Text:
             try:
                 index = int(index)
             except ValueError:
-                logging.info(f'{index} is not number')
                 Text.input('Write Number!', color='red')
                 Text.clear(3)
                 continue
             if index > limits[-1] or index < limits[0]:
-                logging.info(f'Number {index} out of limits!')
                 Text.input(f'Write number from {limits[0]} to {limits[1]}!', color='red')
                 Text.clear(3)
                 continue
@@ -48,7 +47,6 @@ class Text:
         while True:
             for index, option in enumerate(options):
                 Text.print(f'{index+1:^{len(str(len(options)))+1}}-> {option}')
-            Text.print('')
             try:
                 user_option = Text.input_int(phrase, color='green', limits=(1, len(options)), exit_phrase=exit_phrase)
                 return user_option

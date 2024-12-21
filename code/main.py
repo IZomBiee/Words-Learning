@@ -1,24 +1,30 @@
-import logging
-
 from vocabulary import Vocabulary
 from statistic import Statistic
 from windows import Windows
 from text import Text
-
-from dotenv import load_dotenv
-load_dotenv()
+from settings_loader import SettingsLoader
+# import json
 
 if __name__ == '__main__':
-    logging.basicConfig(filename="last.log", level='INFO', filemode='w', encoding='utf-8',
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(module)s - %(funcName)s: %(message)s')
-    logging.info("Start program")
-
+    settings = SettingsLoader('files/settings.json')
     statistic = Statistic('files/statistic.csv', ['date', 'fail', 'success', 'load_times', 'time_in_learning', 'words_learned', 'words_added', 'words_deleted'])
-    vocabulary = Vocabulary(statistic, 'files/words.csv', ['word', 'translation', 'description','date', 'fail', 'success', 'rating'])
+    vocabulary = Vocabulary(statistic, 'files/words.json')
     windows = Windows(vocabulary, statistic)
     
     try:
+        # with open('files/words.csv', 'r', encoding='utf-8') as file:
+        #     file.readline()
+        #     while True:
+        #         line = file.readline()
+        #         if line == '':
+        #             break
+        #         data = line.replace('\n', '').split(',')
+        #         elem = data
+        #         vocabulary.add(elem[0], elem[1], elem[3], elem[4], elem[5])
+            
         windows.choice()
     except KeyboardInterrupt:
-        logging.info('Goodbye!')
         Text.print('Goodbye!')
+        vocabulary.write()
+        statistic.write()
+        settings.write()

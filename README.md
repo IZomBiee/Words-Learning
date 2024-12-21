@@ -19,11 +19,11 @@ git clone https://github.com/IZomBiee/Words-Learning
 
 5. Select the project directory and install dependencies:
 ```shell
-cd Words-Learning
+cd words_learning
 poetry install
 ```
 
 7. Run main.py with poetry
 ```shell
-poetry run python "words_learning\main.py"
+poetry run python "code\main.py"
 ```

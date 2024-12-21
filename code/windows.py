@@ -43,40 +43,16 @@ class Windows:
     def add(self):
         Text.clear()
         Text.print('Nothing to exit', color='yellow')
-        word = Text.input('Write word or words (seperate by ,)       -> ')
-        translation = Text.input('Write translations (seperate by ,) -> ')
-        self.vocabulary.add(word, translation)
- 
-    def change(self, index:int=None):
-        if len(self.vocabulary) < 1:
-            Text.input('No words in vocabulary!', color='red')
-            raise KeyboardInterrupt
-        Text.clear()
-        if index == None:
-            index = self.choice_word()
-        Text.print(f'{self.vocabulary[index]['word']} - {self.vocabulary[index]['translation']})\n')
-        Text.print(f'Nothing to exit', color='yellow')
-        word = Vocabulary.proccess_word(Text.input('Write new word -> '))
-        if word == '':raise KeyboardInterrupt
-        translation = Vocabulary.proccess_word(Text.input('Write new translation -> '))
-        if translation == '':raise KeyboardInterrupt
-        Text.print("Nothing to don't add", color='yellow')
-        self.vocabulary.add(word, translation)
- 
-        Text.clear()
-        Text.print(f'{self.vocabulary[index]['word']} - {self.vocabulary[index]['translation']} -> {word} - {translation}\n')
-        option = Text.menu((
-                    'Yes',
-                    'No'
-        ), phrase = 'Correct -> ')
-        if option == 1:
-            self.vocabulary.change(word, translation, index)
+        word = Text.input('Write word        -> ')
+        translations = Text.input('Write translations and separate using , -> ').split(',')
+        for translation in translations:
+            self.vocabulary.add(word, translation)
 
     def vizualize(self):
         self.statistic.vizualize()
 
     def learn(self):
-        learn(self.vocabulary, self.statistic, self)
+        learn(self.vocabulary, self.statistic)
 
     def reset(self):
         Text.print('Are you sure to reset ALL words? Write Bye to delete', color='red')

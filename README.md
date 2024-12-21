@@ -19,7 +19,7 @@ git clone https://github.com/IZomBiee/Words-Learning
 
 5. Select the project directory and install dependencies:
 ```shell
-cd words_learning
+cd Words-Learning
 poetry install
 ```
 

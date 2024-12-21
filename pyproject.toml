@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Words Learning"
-version = "0.4.0"
+version = "0.4.1"
 description = "Program that can help you learn words."
 authors = ["I ZomBie <patrik009009@gmail.com>"]
 readme = "README.md"

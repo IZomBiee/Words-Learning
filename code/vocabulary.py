@@ -24,7 +24,6 @@ class Vocabulary(JSONReader):
                 Vocabulary.display_word(data)
                 if Text.menu(("Yes", "No"), phrase="Correct? -> ") == 2:
                     return data['translations'].pop(-1)
-                data['rating'] = 0
                 return self.statistic.add('words_added', 1)
                 
             elif any(map(lambda x: x==translation,data['translations'])):
@@ -32,10 +31,15 @@ class Vocabulary(JSONReader):
                 Text.print("↓↓↓")
                 data['words'].append(word)
                 Vocabulary.display_word(data)
-                if Text.menu(("Yes", "No"), phrase="Correct? -> ") == 2:
+                user_input = Text.menu(("Merge", "Cancel", "Make seperate"), phrase="What to do? -> ")
+                if user_input == 1:
+                    data['rating'] = 0
+                    return self.statistic.add('words_added', 1)
+                elif user_input == 2:
                     return data['words'].pop(-1)
-                return self.statistic.add('words_added', 1)
-                
+                elif user_input == 3:
+                    data['words'].pop(-1)
+
         self.data.append({
             'words':[word], 'translations':[translation],
             'date':date, 'fail':fail, 'success':success,
@@ -44,16 +48,20 @@ class Vocabulary(JSONReader):
 
     def delete(self, index:int):
         Vocabulary.display_word(self.data[index])
-        if len(self.data[index]['translations'])+len(self.data[index]['words']) <= 2:
+        options = ['All Word', 'Translations', 'Words']
+        if len(self.data[index]['translations']) <= 1: options.pop(options.index('Translations'))
+        if len(self.data[index]['words']) <= 1: options.pop(options.index('Words'))
+        user_input = Text.menu(options, phrase="What need to delete? -> ", return_index=False)
+        if user_input == 'All Word':
             self.data.pop(index)
             self.statistic.add('words_deleted', 1)
-        elif Text.menu(('Words','Translations'), phrase="What need to delete? -> ") == 1:
-            self.data[index]['words'].pop(Text.menu(self.data[index]['words'],
-                                                    phrase='Choose the word to delete -> ')-1)
-            self.statistic.add('words_deleted', 1)
-        else:
+        elif user_input == 'Translations':
             self.data[index]['translations'].pop(Text.menu(self.data[index]['translations'],
                                         phrase='Choose the translation to delete -> ')-1)
+            self.statistic.add('words_deleted', 1)
+        else:
+            self.data[index]['words'].pop(Text.menu(self.data[index]['words'],
+                                    phrase='Choose the word to delete -> ')-1)
             self.statistic.add('words_deleted', 1)
 
     def change(self, word:str, translation:str, index:int) -> None:
@@ -93,7 +101,7 @@ class Vocabulary(JSONReader):
     @staticmethod
     def display_word(data: dict):
         Text.print(', '.join(data['words']), end=" ")
-        Text.print('= ', end='')
+        Text.print('- ', end='')
         Text.print(', '.join(data['translations']), end=" ")
         Text.print()
     

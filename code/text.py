@@ -34,6 +34,17 @@ class Text:
                 continue
             else:
                 return index
+    
+    def input_bool(text:str='', color:str='green'):
+        while True:
+            user_input = Text.input(text + '(n/Y) -> ', color)
+            if user_input == 'Y':
+                return True
+            elif user_input == 'n':
+                return False
+            else:
+                Text.print('Write n or Y!', color='red')
+
                 
     def clear(count:int=0):
         if count == 0:
@@ -43,13 +54,15 @@ class Text:
                 sys.stdout.write("\033[F")
                 sys.stdout.write("\033[K")
 
-    def menu(options:tuple[str], phrase:str='Option -> ', exit_phrase:str='Nothing to exit') -> int:
+    def menu(options:tuple[str], phrase:str='Option -> ', exit_phrase:str='Nothing to exit', return_index=True) -> int:
         while True:
             for index, option in enumerate(options):
                 Text.print(f'{index+1:^{len(str(len(options)))+1}}-> {option}')
             try:
                 user_option = Text.input_int(phrase, color='green', limits=(1, len(options)), exit_phrase=exit_phrase)
-                return user_option
+                if return_index:
+                    return user_option
+                else: return options[index]
             except ValueError:
                 Text.input('Write number!', color='red')
             finally:

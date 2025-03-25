@@ -70,7 +70,7 @@ class Vocabulary(JSONReader):
         self.write()
 
     def add_statistic(self, index:int, key:str, count:int):
-        self[index][key] = str(int(self[index][key]) + count)
+        self[index][key] = int(self[index][key]) + count
         self.write()
     
     @staticmethod

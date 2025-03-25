@@ -27,10 +27,17 @@ class SettingsLoader(JSONReader):
             except FileExistsError:
                 pass
             self.data = {
-                'word_in_learning_chance':50,
-                'learning_chance_table':{'0': 100., '1':70., '2':50., '3':30., '4':7., '5':0.3},
-                'contest_mode_chance':1,
-                "word_almost_correct_threshold": 70,
-                "translation_almost_correct_threshold": 60
+                "word_in_learning_chance": 50,
+                "learning_chance_table": {
+                    "0": 100.0,
+                    "1": 70.0,
+                    "2": 50.0,
+                    "3": 30.0,
+                    "4": 3,
+                    "5": 0.3
+                },
+                "contest_mode_chance": 5,
+                "word_almost_correct_threshold": 80,
+                "translation_almost_correct_threshold": 70
             }
             self.write()

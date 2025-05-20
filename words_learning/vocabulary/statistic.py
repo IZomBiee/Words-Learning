@@ -28,6 +28,7 @@ class Statistic:
     @date.setter
     def date(self, value: str):
         self[-1]['date'] = value
+        self.write()
     
     @property
     def fail(self) -> int:
@@ -36,6 +37,7 @@ class Statistic:
     @fail.setter
     def fail(self, value: int):
         self[-1]['fail'] = str(value)
+        self.write()
     
     @property
     def success(self) -> int:
@@ -44,6 +46,7 @@ class Statistic:
     @success.setter
     def success(self, value: int):
         self[-1]['success'] = str(value)
+        self.write()
     
     @property
     def load_times(self) -> int:
@@ -52,6 +55,7 @@ class Statistic:
     @load_times.setter
     def load_times(self, value: int):
         self[-1]['load_times'] = str(value)
+        self.write()
     
     @property
     def time_in_learning(self) -> int:
@@ -60,6 +64,7 @@ class Statistic:
     @time_in_learning.setter
     def time_in_learning(self, value: int):
         self[-1]['time_in_learning'] = str(value)
+        self.write()
     
     @property
     def words_learned(self) -> int:
@@ -68,6 +73,7 @@ class Statistic:
     @words_learned.setter
     def words_learned(self, value: int):
         self[-1]['words_learned'] = str(value)
+        self.write()
     
     @property
     def words_added(self) -> int:
@@ -76,6 +82,7 @@ class Statistic:
     @words_added.setter
     def words_added(self, value: int):
         self[-1]['words_added'] = str(value)
+        self.write()
     
     @property
     def words_deleted(self) -> int:
@@ -84,6 +91,7 @@ class Statistic:
     @words_deleted.setter
     def words_deleted(self, value: int):
         self[-1]['words_deleted'] = str(value)
+        self.write()
 
     def read(self):
         try:

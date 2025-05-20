@@ -16,7 +16,9 @@ class Dictionary():
 
     def delete(self, unit:DictionaryUnit) -> DictionaryUnit:
         Statistic.words_deleted += 1
-        return self.units.pop(self.units.index(unit))
+        deleted_unit = self.units.pop(self.units.index(unit))
+        self.save_units()
+        return deleted_unit
 
     def has_translations(self, *translations:str) -> DictionaryUnit | None:
         for translation in translations:
@@ -40,6 +42,7 @@ class Dictionary():
     def add_unit(self, unit: DictionaryUnit) -> DictionaryUnit:
         self.units.append(unit)
         Statistic().words_added += 1
+        self.save_units()
         return unit
     
     def create_unit(self, words:tuple[str, ...], translations:tuple[str]) -> DictionaryUnit:

@@ -2,9 +2,13 @@ import page
 
 from vocabulary import Dictionary, Statistic
 
-Statistic()
-Dictionary().load_units()
-page.start_page_loop()
+try:
+    Statistic()
+    Dictionary().load_units()
+    page.start_page_loop()
+except KeyboardInterrupt:...
+finally:
+    print("Goodbye!")
 
 
 

@@ -15,7 +15,7 @@ class Dictionary():
         return self.units
 
     def delete(self, unit:DictionaryUnit) -> DictionaryUnit:
-        Statistic.words_deleted += 1
+        Statistic().words_deleted += 1
         deleted_unit = self.units.pop(self.units.index(unit))
         self.save_units()
         return deleted_unit

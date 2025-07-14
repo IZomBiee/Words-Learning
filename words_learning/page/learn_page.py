@@ -68,7 +68,7 @@ Position:{vocabulary.Dictionary().get_units().index(dictionary_unit)+1}/{len(voc
                     if not word_correction: dictionary_unit.on_success()
                     console.custom_input("All Correct! ", 'green', False)
                     break
-                elif accuracy_precent > 70:
+                elif accuracy_precent > 85:
                     if not word_correction: dictionary_unit.on_success()
                     [console.colored_print(i['char'], i['color'], '') for i in dictionary_unit.compare(correct_word, entered_word)]
                     console.custom_input("\nAlmost Correct! ", 'yellow', False)

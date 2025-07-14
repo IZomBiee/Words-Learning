@@ -13,7 +13,7 @@ def learn_page_loop():
         try:
             cycle_start_time = time.time()
             dictionary_unit = vocabulary.Dictionary().get_random_word()
-            is_translation = 0.3 < random.random()
+            is_translation = 0.7 < random.random()
 
             try:
                 correct_precent = (dictionary_unit.get_success_count() / (dictionary_unit.get_fail_count() + dictionary_unit.get_success_count())) * 100

@@ -8,6 +8,7 @@ def start_page_loop():
         console.clear()
         option = console.menu([
             'Add words',
+            'Change words',
             'Delete words',
             'Show statistics',
             'Learn',
@@ -17,9 +18,11 @@ def start_page_loop():
             case 1:
                 page.add_page_loop()
             case 2:
-                page.delete_page_loop()
+                page.change_page_loop()
             case 3:
-                page.statistic_page_loop()
+                page.delete_page_loop()
             case 4:
+                page.statistic_page_loop()
+            case 5:
                 page.learn_page_loop()
                 

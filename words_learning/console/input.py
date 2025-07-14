@@ -9,12 +9,21 @@ def display_word(word_unit: DictionaryUnit) -> None:
     colored_print(', '.join(word_unit.get_translations()), end=" ")
     colored_print()
 
-def input_word_unit() -> DictionaryUnit:
+def input_words() -> list[str]:
     colored_print('Nothing to exit', color='yellow')
     colored_print('Seperate by ,', color='yellow')
+    words = custom_input('Write words -> ').split(',')
+    return [DictionaryUnit.process_string(word) for word in words]
 
-    words = custom_input('Write words  -> ').split(',')
+def input_translations() -> list[str]:
+    colored_print('Nothing to exit', color='yellow')
+    colored_print('Seperate by ,', color='yellow')
     translations = custom_input('Write translations -> ').split(',')
+    return [DictionaryUnit.process_string(translation) for translation in translations]
+
+def input_word_unit() -> DictionaryUnit:
+    words = input_words()
+    translations = input_translations()
     return DictionaryUnit().add_words(*words).add_translations(*translations)
 
 def compare_word_units(word_unit1: DictionaryUnit, word_unit2: DictionaryUnit) -> None:
@@ -40,7 +49,7 @@ def menu(options:tuple[str, ...], phrase:str='Option -> ', exit_phrase:str='Noth
         except ValueError:
             custom_input('Write number!', color='red')
         finally:
-            clear(len(options)+3)
+            clear(len(options)+2)
 
 def custom_input(text:str='', color:str='green', raise_interrupt = True): 
     colored_print(text, color=color, end='')

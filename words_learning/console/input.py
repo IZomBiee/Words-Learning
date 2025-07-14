@@ -33,10 +33,9 @@ def compare_word_units(word_unit1: DictionaryUnit, word_unit2: DictionaryUnit, s
     colored_print(', '.join(word_unit2.get_words()), 'white', ' - ')
     colored_print(', '.join(word_unit2.get_translations()), 'white')
 
-
 def choose_word() -> DictionaryUnit:
     return Dictionary()[menu([word_unit.to_string()
-                 for word_unit in Dictionary()], phrase='Choose the word -> ')-1]
+                for word_unit in Dictionary()], phrase='Choose the word -> ')-1]
 
 def menu(options:tuple[str, ...], phrase:str='Option -> ', exit_phrase:str='Nothing to exit', return_index=True) -> int:
     while True:
@@ -70,11 +69,11 @@ def input_int(text:str='', color:str='green', limits:list[int, int]=(0, -1), exi
         try:
             index = int(index)
         except ValueError:
-            custom_input('Write Number!', color='red')
+            custom_input('Write Number!', color='red', raise_interrupt=False)
             clear(3)
             continue
         if index > limits[-1] or index < limits[0]:
-            custom_input(f'Write number from {limits[0]} to {limits[1]}!', color='red')
+            custom_input(f'Write number from {limits[0]} to {limits[1]}!', color='red', raise_interrupt=False)
             clear(3)
             continue
         else:

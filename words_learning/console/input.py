@@ -26,12 +26,13 @@ def input_word_unit() -> DictionaryUnit:
     translations = input_translations()
     return DictionaryUnit().add_words(*words).add_translations(*translations)
 
-def compare_word_units(word_unit1: DictionaryUnit, word_unit2: DictionaryUnit) -> None:
+def compare_word_units(word_unit1: DictionaryUnit, word_unit2: DictionaryUnit, splitting: str = '\n↓↓↓\n') -> None:
     colored_print(', '.join(word_unit1.get_words()), 'white', ' - ')
-    colored_print(', '.join(word_unit1.get_translations()), 'white')
-    colored_print('↓↓↓')
+    colored_print(', '.join(word_unit1.get_translations()), 'white', end='')
+    colored_print(splitting, end='')
     colored_print(', '.join(word_unit2.get_words()), 'white', ' - ')
     colored_print(', '.join(word_unit2.get_translations()), 'white')
+
 
 def choose_word() -> DictionaryUnit:
     return Dictionary()[menu([word_unit.to_string()

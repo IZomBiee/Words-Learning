@@ -1,4 +1,4 @@
-from vocabulary import Statistic
+from ..vocabulary import Statistic
 
 from matplotlib import pyplot as plt
 

@@ -1,6 +1,6 @@
-import page
+from words_learning import page
 
-from vocabulary import Dictionary, Statistic
+from words_learning.vocabulary import Dictionary, Statistic
 
 try:
     Statistic()

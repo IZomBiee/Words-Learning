@@ -1,6 +1,6 @@
 import difflib
 import json
-import utils
+from words_learning import utils
 from .statistic import Statistic
 
 class DictionaryUnit:

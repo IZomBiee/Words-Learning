@@ -1,6 +1,6 @@
 import csv
 import os
-import utils
+from words_learning import utils
 
 @utils.singleton
 class Statistic:

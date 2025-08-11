@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Words Learning"
-version = "1.1.2"
+version = "1.2.0"
 description = "Program that can help you learn words."
 authors = ["I ZomBie <patrik009009@gmail.com>"]
 readme = "README.md"
@@ -10,6 +10,7 @@ package-mode = false
 python = ">=3.9 <3.14"
 termcolor = "^2.4.0"
 matplotlib = "^3.8.4"
+pywin32 = "^311"
 
 [build-system]
 requires = ["poetry-core"]

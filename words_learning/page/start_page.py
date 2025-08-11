@@ -1,7 +1,7 @@
-import vocabulary
-import page
+import words_learning.vocabulary
+from .. import page
 
-import console
+from .. import console
 
 def start_page_loop():
     while True:

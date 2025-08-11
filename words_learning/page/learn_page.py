@@ -1,7 +1,9 @@
-import console
-import vocabulary
+from .. import console
+from .. import vocabulary
 import random
 import time
+
+from ..utils import change_to_main, change_to_second
 
 def learn_page_loop():
     if len(vocabulary.Dictionary()) == 0:
@@ -40,6 +42,7 @@ Position:{vocabulary.Dictionary().get_units().index(dictionary_unit)+1}/{len(voc
                 
                 console.colored_print("Nothing to exit", 'yellow')
                 if is_translation:
+                    change_to_second()
                     if len(printed_words) > 1:
                         console.colored_print("Words -> ", 'green', end='')
                     else: console.colored_print("Word -> ", 'green', end='')
@@ -51,6 +54,7 @@ Position:{vocabulary.Dictionary().get_units().index(dictionary_unit)+1}/{len(voc
                     if len(printed_translations):
                         console.colored_print(', '.join(printed_translations), end=', ')
                 else:
+                    change_to_main()
                     if len(printed_translations) > 1:
                         console.colored_print("Translation -> ", 'green', end='')
                     else: console.colored_print("Translation -> ", 'green', end='')

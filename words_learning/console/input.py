@@ -1,7 +1,8 @@
 from .output import *
 
-from vocabulary.dictionary_unit import DictionaryUnit
-from vocabulary.dictionary import Dictionary
+from ..utils import change_to_main, change_to_second
+from ..vocabulary.dictionary_unit import DictionaryUnit
+from ..vocabulary.dictionary import Dictionary
 
 def display_word(word_unit: DictionaryUnit) -> None:
     colored_print(', '.join(word_unit.get_words()), end=" ")
@@ -10,12 +11,14 @@ def display_word(word_unit: DictionaryUnit) -> None:
     colored_print()
 
 def input_words() -> list[str]:
+    change_to_main()
     colored_print('Nothing to exit', color='yellow')
     colored_print('Seperate by ,', color='yellow')
     words = custom_input('Write words -> ').split(',')
     return [DictionaryUnit.process_string(word) for word in words]
 
 def input_translations() -> list[str]:
+    change_to_second()
     colored_print('Nothing to exit', color='yellow')
     colored_print('Seperate by ,', color='yellow')
     translations = custom_input('Write translations -> ').split(',')

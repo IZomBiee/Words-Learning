@@ -1,4 +1,4 @@
-import utils
+from words_learning import utils
 import json
 import random
 

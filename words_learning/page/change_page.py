@@ -1,5 +1,5 @@
-import console
-from vocabulary import Dictionary, DictionaryUnit
+from .. import console
+from ..vocabulary import Dictionary, DictionaryUnit
 
 def change_page_loop():
     if len(Dictionary()) == 0:

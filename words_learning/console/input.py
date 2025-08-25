@@ -83,11 +83,9 @@ def input_int(text:str='', color:str='green', limits:list[int, int]=(0, -1), exi
             return index
 
 def custom_input_bool(text:str='', color:str='green'):
-    while True:
-        user_custom_input = custom_input(text + '(n/Y) -> ', color)
-        if user_custom_input == 'Y':
-            return True
-        elif user_custom_input == 'n':
-            return False
-        else:
-            colored_print('Write n or Y!', color='red')
+    change_to_main()
+    user_custom_input = custom_input(text + '(Y to confirm) -> ',
+        color, False)
+    if user_custom_input == 'Y':
+        return True
+    return False

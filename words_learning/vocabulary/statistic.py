@@ -15,7 +15,7 @@ class Statistic:
                 'success':0,
                 'load_times':0,
                 'time_in_learning':0,
-                'words_learned':0,
+                'words_learned':self.data[-1]['words_learned'],
                 'words_added':0,
                 'words_deleted':0,
                               })

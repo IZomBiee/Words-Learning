@@ -6,16 +6,19 @@ from words_learning import utils
 class Statistic:
     def __init__(self):
         self.saving_path = "statistic.csv"
-        self.data: list[dict]
+        self.data: list[dict] = []
         self.read()
         if len(self.data) == 0 or self[-1]['date'] != utils.get_current_date():
+            if not len(self.data):
+                words_learned = 0
+            else: words_learned = self.data[-1]['words_learned']
             self.data.append({
                 'date':utils.get_current_date(),
                 'fail':0,
                 'success':0,
                 'load_times':0,
                 'time_in_learning':0,
-                'words_learned':self.data[-1]['words_learned'],
+                'words_learned': words_learned,
                 'words_added':0,
                 'words_deleted':0,
                               })
@@ -105,13 +108,12 @@ class Statistic:
                 os.mkdir('files')
             except FileExistsError:
                 pass
-            self.write()
 
     def write(self):
         with open(self.saving_path, encoding='utf-8', mode='w') as file:
-                writer = csv.DictWriter(file, lineterminator='\n', delimiter=',', fieldnames=self[-1].keys())
-                writer.writeheader()
-                writer.writerows(self.data)
+            writer = csv.DictWriter(file, lineterminator='\n', delimiter=',', fieldnames=self[-1].keys())
+            writer.writeheader()
+            writer.writerows(self.data)
 
     def __getitem__(self, index):
         return self.data[index]
